@@ -18,3 +18,8 @@ C:\Glavnyi\Monitor\Monitor\bin\Debug\FontAwesome.WPF.xml
 C:\Glavnyi\Monitor\Monitor\obj\Debug\Monitor.csproj.CopyComplete
 C:\Glavnyi\Monitor\Monitor\obj\Debug\App.baml
 C:\Glavnyi\Monitor\Monitor\obj\Debug\Style\Style1.baml
+C:\Glavnyi\Monitor\Monitor\obj\Debug\Message.g.cs
+C:\Glavnyi\Monitor\Monitor\obj\Debug\Message.baml
+C:\Glavnyi\Monitor\Monitor\bin\Debug\WpfAnimatedGif.dll
+C:\Glavnyi\Monitor\Monitor\bin\Debug\WpfAnimatedGif.pdb
+C:\Glavnyi\Monitor\Monitor\bin\Debug\WpfAnimatedGif.xml
