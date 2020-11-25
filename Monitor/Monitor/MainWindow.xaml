@@ -5,23 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitor"
         xmlns:FA="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
     <Window.Resources>
-        <Storyboard x:Key="Storyboard1" SpeedRatio="0.8" Timeline.DesiredFrameRate="1000">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="imageAwesome" RepeatBehavior="Forever" AutoReverse="True">
-                <EasingDoubleKeyFrame KeyTime="0" Value="20"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="-0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="-40"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.8" Value="20"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
+        <Storyboard x:Key="Animation_For_Video"/>
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+            <BeginStoryboard Storyboard="{StaticResource Animation_For_Video}"/>
         </EventTrigger>
     </Window.Triggers>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -42,10 +37,10 @@
                     </Grid.ColumnDefinitions>
                     <!--РСК нын иконкасы-->
                     <StackPanel Orientation="Horizontal" Margin="25,25,0,10" Grid.Column="0">
-                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="Image_MouseDown"/>
                         <StackPanel>
                             <TextBlock Text="РСК БАНК" Foreground="White" FontSize="55" FontWeight="Bold" Margin="5,0"/>
-                            <TextBlock Text="Больше возможностей!" Foreground="#FFCBCBCB" FontSize="20" FontWeight="Medium"  Margin="8,0"/>
+                            <TextBlock Text="Больше возможностей!" Foreground="#FFCBCBCB" FontSize="20" FontWeight="Medium" Margin="8,0"/>
                         </StackPanel>
                     </StackPanel>
                     <!--Очереди жеткен адамды чакыруучу анимационный текст-->
@@ -57,16 +52,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="А1000" Margin="20,0,0,0"/>
-                            <FA:ImageAwesome x:Name="imageAwesome" Grid.Column="1" Icon="LongArrowRight" Width="90" Foreground="White" RenderTransformOrigin="0.5,0.5">
-                                <FA:ImageAwesome.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </FA:ImageAwesome.RenderTransform>
-                            </FA:ImageAwesome>
+                            <Image x:Name="imageAwesome" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="153" Source="Image/GIF/Person.gif">
+                            </Image>
                             <TextBlock FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="1000" Grid.Column="2" Margin="10,0,0,0"/>
                         </Grid>
                     </Grid>
@@ -77,17 +64,17 @@
                     </Grid.Effect>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid x:Name="grid" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="55*"/>
-                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <!--Видео чыкчу грид-->
                 <Grid Grid.Column="0" Background="White">
-                    <MediaElement VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
+                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" Source="Image/Fon.jpg"/>
                 </Grid>
                 <!--Очереддер чыкчу жер-->
-                <Grid Grid.Column="1" >
+                <Grid x:Name="GridWidth" Grid.Column="1" Width="600">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="65"/>
                         <RowDefinition Height="*"/>
@@ -97,10 +84,10 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="КЛИЕНТ"></TextBlock>
-                        <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="ОКНО" Grid.Column="1"></TextBlock>
+                        <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="КЛИЕНТ"/>
+                        <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="ОКНО" Grid.Column="1"/>
                     </Grid>
-                    <ListBox x:Name="List" AlternationCount="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Style="{DynamicResource styleListBox}">
+                    <ListBox x:Name="List" AlternationCount="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{DynamicResource styleListBox}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Background="#9FC3FF">
