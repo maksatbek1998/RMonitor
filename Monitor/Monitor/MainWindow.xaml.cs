@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Monitor
 {
@@ -20,9 +21,22 @@ namespace Monitor
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
         public MainWindow()
         {
             InitializeComponent();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            buttonClickMain_Click(sender, e);
+        }
+        private void buttonClickMain_Click(object sender, EventArgs e)
+        {
+            ViewModel.MainViewModel vm = new ViewModel.MainViewModel();
+            vm.timeDelation(ref mediaReclam);
         }
     }
 }

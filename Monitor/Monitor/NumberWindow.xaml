@@ -1,0 +1,26 @@
+﻿<Window x:Class="Monitor.NumberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Monitor"
+        xmlns:vm="clr-namespace:Monitor.ViewModel"
+        mc:Ignorable="d"
+        Title="NumberWindow" Height="270" Width="850" Background="{x:Null}" AllowsTransparency="True" WindowStyle="None"  WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Border Background="#0A6E9E" Width="800" Height="250" CornerRadius="20" Opacity="0.9" >
+            <StackPanel    Width="600"
+                            VerticalAlignment="Top" Orientation="Horizontal" Height="250" Margin="100,0">
+                <Label Content="{Binding number,UpdateSourceTrigger=PropertyChanged}" FontSize="170" Margin="0,0,0,0" HorizontalAlignment="Center" Width="200"
+                               Foreground="White" />
+                <TextBlock Text="->" FontWeight="Bold" FontSize="120" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Height="205" Width="185" Margin="0,35,0,10"/>
+                <Label Content="{Binding oper ,UpdateSourceTrigger=PropertyChanged}" FontSize="170" Margin="80,0,0,0"  HorizontalAlignment="Center" Width="320"
+                               Foreground="White"/>
+            </StackPanel>
+
+        </Border>
+    </Grid>
+</Window>

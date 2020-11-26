@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Glavnyi\Monitor\Monitor\obj\Debug\
+D:\C# projects\RMonitor\Monitor\Monitor\obj\Debug\
 Monitor
 none
 false
 DEBUG;TRACE
-C:\Glavnyi\Monitor\Monitor\App.xaml
-2281483127
+D:\C# projects\RMonitor\Monitor\Monitor\App.xaml
+31352976092
 
-61434861427
-14-723490043
-MainWindow.xaml;Style\Style1.xaml;
+131985933958
+137-1505608212
+MainWindow.xaml;NumberWindow.xaml;Style\Style1.xaml;
 
 True
 
