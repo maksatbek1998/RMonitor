@@ -24,7 +24,7 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
@@ -34,7 +34,7 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <!-- <Image Source="Image/Icon/icon1.png" HorizontalAlignment="Left" Height="65" Margin="10"/>-->
-                <Grid Grid.Row="0" Background="#0A6E9E">
+                <Grid x:Name="Title" Grid.Row="0" Background="#0A6E9E" Height="150">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="55*"/>
                         <ColumnDefinition Width="45*"/>
@@ -42,8 +42,7 @@
                     <!--РСК нын иконкасы-->
                     <StackPanel Orientation="Horizontal" Margin="25,25,0,10" Grid.Column="0">
                         <Button x:Name="buttonClickMain" Visibility="Hidden" Click="buttonClickMain_Click"/>
-                        <Button x:Name="buttonClickMain_1" Width="20" Command="{Binding ButClick}" BorderThickness="0" Background="Transparent"/>
-                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="Image_MouseDown"/>
+                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel>
                             <TextBlock Text="РСК БАНК" Foreground="White" FontSize="55" FontWeight="Bold" Margin="5,0"/>
                             <TextBlock Text="Больше возможностей!" Foreground="#FFCBCBCB" FontSize="20" FontWeight="Medium" Margin="8,0"/>
@@ -111,7 +110,7 @@
                     </ListBox>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Background="#0A6E9E">
+            <Grid Grid.Row="2" Background="#0A6E9E" MouseDown="Grid_MouseDown">
                 <Canvas x:Name="Canvas" Background="Transparent" Height="150"  HorizontalAlignment="Left"
                 VerticalAlignment="Top">
 

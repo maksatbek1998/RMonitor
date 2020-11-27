@@ -17,16 +17,15 @@ namespace Monitor
     /// </summary>
     public partial class MainWindow : Window
     {
-        DataBase.BaseData dataBase;
-
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+         DataBase.BaseData dataBase;
+         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         public MainWindow()
         {
          InitializeComponent();
-     
 
-         #region Timer
-                dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+
+            #region Timer
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
             #endregion
@@ -34,7 +33,7 @@ namespace Monitor
         }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            
+
             buttonClickMain_Click(sender, e);
 
             UpdateQ();
@@ -66,7 +65,12 @@ namespace Monitor
                 myDoubleAnimation.From = GridWidth.Width;
                 myDoubleAnimation.To = 0;
                 myDoubleAnimation.Duration = TimeSpan.FromMilliseconds(500);
-                GridWidth.BeginAnimation(Grid.WidthProperty, myDoubleAnimation);
+                GridWidth.BeginAnimation(Grid.WidthProperty, myDoubleAnimation); 
+                DoubleAnimation myDoubleAnimation1 = new DoubleAnimation();
+                myDoubleAnimation1.From = Title.Height;
+                myDoubleAnimation1.To = 0;
+                myDoubleAnimation1.Duration = TimeSpan.FromMilliseconds(450);
+                Title.BeginAnimation(Grid.HeightProperty, myDoubleAnimation1);
             }
             else
             {
@@ -75,13 +79,13 @@ namespace Monitor
                 myDoubleAnimation.To = 600;
                 myDoubleAnimation.Duration = TimeSpan.FromMilliseconds(500);
                 GridWidth.BeginAnimation(Grid.WidthProperty, myDoubleAnimation);
+                DoubleAnimation myDoubleAnimation1 = new DoubleAnimation();
+                myDoubleAnimation1.From = 0;
+                myDoubleAnimation1.To = 150;
+                myDoubleAnimation1.Duration = TimeSpan.FromMilliseconds(450);
+                Title.BeginAnimation(Grid.HeightProperty, myDoubleAnimation1);
             }
 
-        }
-
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Animation_For_Video();
         }
         #endregion
 
@@ -95,9 +99,9 @@ namespace Monitor
             {
                 List.Items.Clear();
             }
-           else if(List.Items.Count == 0)
+            else if (List.Items.Count == 0)
             {
-                NumberTxt.Text ="";
+                NumberTxt.Text = "";
                 OperTxt.Text = "";
             }
             dataBase = new DataBase.BaseData();
@@ -113,25 +117,29 @@ namespace Monitor
                             {
                                 number = db.Rows[i][1].ToString(),
                                 oper = db.Rows[i][2].ToString()
-                            }) ;
+                            });
                     }
                     OperTxt.Text = db.Rows[0][2].ToString();
                     NumberTxt.Text = db.Rows[0][1].ToString();
-                                       
+
                 }
             };
             dataBase.SoursData("SELECT * from turns ORDER BY number desc");
         }
         private void NumberTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(List.Items.Count > 0)
+            if (List.Items.Count > 0)
             {
-                Message numberWindow = new Message( NumberTxt.Text,OperTxt.Text) ;
+                Message numberWindow = new Message(NumberTxt.Text, OperTxt.Text);
                 numberWindow.Show();
                 Personto_to_walk();
-              
             }
 
-        }           
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Animation_For_Video();
+        }
     }
 }
