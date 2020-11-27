@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitor"
         xmlns:FA="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+        xmlns:vm="clr-namespace:Monitor.ViewModel"
         mc:Ignorable="d"
         Title="Message" Height="280" Width="850" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Storyboard x:Key="Storyboard1" RepeatBehavior="Forever" Timeline.DesiredFrameRate="60" AutoReverse="True">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="imageAwesome">
@@ -35,7 +39,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Margin="0,-50,0,0">
                     <TextBlock FontSize="55" Foreground="#0A6E9E" HorizontalAlignment="Center"  FontWeight="Bold" Text="КЛИЕНТ" Margin="0,0,0,0"/>
-                    <TextBlock x:Name="KLIENT" FontSize="90" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="А1000" Margin="0,0,0,0"/>
+                    <TextBlock x:Name="KLIENT" FontSize="90" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding MainNumber}" Margin="0,0,0,0"/>
                 </StackPanel>
                 <FA:ImageAwesome x:Name="imageAwesome" Grid.Column="1" Icon="LongArrowRight" Width="100" Foreground="#0A6E9E" RenderTransformOrigin="0.5,0.5" Margin="0,35,0,0">
                     <FA:ImageAwesome.RenderTransform>
@@ -49,7 +53,7 @@
                 </FA:ImageAwesome>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2" Margin="0,-50,0,0">
                     <TextBlock FontSize="55" Foreground="#0A6E9E"  HorizontalAlignment="Center"  FontWeight="Bold" Text="ОКНО"/>
-                    <TextBlock x:Name="OKNO" FontSize="90" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="А1000"/>
+                    <TextBlock x:Name="OKNO" FontSize="90" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding MainOper}"/>
                 </StackPanel>
             </Grid>
         </Border>

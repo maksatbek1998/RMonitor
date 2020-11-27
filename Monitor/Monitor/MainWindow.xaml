@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitor"
+        xmlns:vm="clr-namespace:Monitor.ViewModel"
         xmlns:FA="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Storyboard x:Key="Animation_For_Video"/>
     </Window.Resources>
@@ -37,6 +41,8 @@
                     </Grid.ColumnDefinitions>
                     <!--РСК нын иконкасы-->
                     <StackPanel Orientation="Horizontal" Margin="25,25,0,10" Grid.Column="0">
+                        <Button x:Name="buttonClickMain" Visibility="Hidden" Click="buttonClickMain_Click"/>
+                        <Button x:Name="buttonClickMain_1" Width="20" Command="{Binding ButClick}" BorderThickness="0" Background="Transparent"/>
                         <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" MouseDown="Image_MouseDown"/>
                         <StackPanel>
                             <TextBlock Text="РСК БАНК" Foreground="White" FontSize="55" FontWeight="Bold" Margin="5,0"/>
@@ -51,10 +57,10 @@
                                 <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="А1000" Margin="20,0,0,0"/>
+                            <TextBox x:Name="NumberTxt" FontSize="65" Foreground="White" VerticalAlignment="Center" BorderThickness="0" HorizontalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" TextChanged="NumberTxt_TextChanged" Background="{x:Null}" SelectionBrush="{x:Null}"/>
                             <Image x:Name="imageAwesome" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="153" Source="Image/GIF/Person.gif">
                             </Image>
-                            <TextBlock FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="1000" Grid.Column="2" Margin="10,0,0,0"/>
+                            <TextBox x:Name="OperTxt"  FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="2" BorderThickness="0" Background="{x:Null}" SelectionBrush="{x:Null}" Margin="10,0,0,0"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -71,7 +77,7 @@
                 </Grid.ColumnDefinitions>
                 <!--Видео чыкчу грид-->
                 <Grid Grid.Column="0" Background="White">
-                    <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" Source="Image/Fon.jpg"/>
+                    <MediaElement LoadedBehavior="Manual" UnloadedBehavior="Manual" x:Name="mediaReclam" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
                 </Grid>
                 <!--Очереддер чыкчу жер-->
                 <Grid x:Name="GridWidth" Grid.Column="1" Width="600">
@@ -87,18 +93,18 @@
                         <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="КЛИЕНТ"/>
                         <TextBlock FontSize="55" Foreground="#FF0A6E9E" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="ОКНО" Grid.Column="1"/>
                     </Grid>
-                    <ListBox x:Name="List" AlternationCount="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{DynamicResource styleListBox}">
+                    <ListBox SelectedIndex="0" SelectedItem="{Binding SelectedNum, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ListColl , UpdateSourceTrigger=PropertyChanged}" x:Name="List" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Style="{DynamicResource styleListBox}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="#9FC3FF">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="110"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock FontSize="55" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="А1" Margin="20,0,0,0"/>
+                                    <TextBlock FontSize="55" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center"  FontWeight="Bold" Text="{Binding number , UpdateSourceTrigger=PropertyChanged}" Margin="20,0,0,0"/>
                                     <FA:ImageAwesome Grid.Column="1" Icon="LongArrowRight" Width="90" Foreground="#FF0A6E9E"/>
-                                    <TextBlock FontSize="55" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Text="1000" Grid.Column="2" Margin="10,0,0,0"/>
+                                    <TextBlock FontSize="55" Foreground="#FF646464" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding oper , UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
