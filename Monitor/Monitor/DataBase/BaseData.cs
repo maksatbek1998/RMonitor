@@ -1,11 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Monitor.DataBase
 {
     class BaseData
     {
-        public MySqlConnection connection = new MySqlConnection("datasource=localhost; port=3306;Initial Catalog='rsk';username=root;password=doni2429;CharSet=utf8;");
+        public MySqlConnection connection = new MySqlConnection("datasource=192.168.0.123; port=3306;Initial Catalog='ogpi';username=admin;password=2;CharSet=utf8;");
         public delegate void SendData(DataTable data);
         public event SendData del;
         public void SoursData(string s)

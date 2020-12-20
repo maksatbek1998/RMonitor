@@ -26,7 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -42,10 +42,12 @@
                     <!--РСК нын иконкасы-->
                     <StackPanel Orientation="Horizontal" Margin="25,25,0,10" Grid.Column="0">
                         <Button x:Name="buttonClickMain" Visibility="Hidden" Click="buttonClickMain_Click"/>
-                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Image Source="Image/logo2.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel>
-                            <TextBlock Text="РСК БАНК" Foreground="White" FontSize="55" FontWeight="Bold" Margin="5,0"/>
-                            <TextBlock Text="Больше возможностей!" Foreground="#FFCBCBCB" FontSize="20" FontWeight="Medium" Margin="8,0"/>
+                            <TextBlock Text="ОШ ГУМАНИТАРДЫК" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
+                            <TextBlock Text="ПЕДАГОГИКАЛЫК" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
+                            <TextBlock Text="ИНИСТИТУТУ" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
+
                         </StackPanel>
                     </StackPanel>
                     <!--Очереди жеткен адамды чакыруучу анимационный текст-->
@@ -56,10 +58,11 @@
                                 <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="NumberTxt" FontSize="65" Foreground="White" VerticalAlignment="Center" BorderThickness="0" HorizontalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" TextChanged="NumberTxt_TextChanged" Background="{x:Null}" SelectionBrush="{x:Null}"/>
-                            <Image x:Name="imageAwesome" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="153" Source="Image/GIF/Person.gif">
+                            <TextBox IsEnabled="False" x:Name="NumberTxt" FontSize="65" Foreground="White" VerticalAlignment="Center" BorderThickness="0" HorizontalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" TextChanged="NumberTxt_TextChanged" Background="{x:Null}" SelectionBrush="{x:Null}"/>
+                            <Image x:Name="imageAwesome" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="153">
                             </Image>
-                            <TextBox x:Name="OperTxt"  FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="2" BorderThickness="0" Background="{x:Null}" SelectionBrush="{x:Null}" Margin="10,0,0,0"/>
+                            <TextBlock Visibility="Hidden" x:Name="Lan"/>
+                            <TextBox IsEnabled="False" x:Name="OperTxt"  FontSize="65" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="2" BorderThickness="0" Background="{x:Null}" SelectionBrush="{x:Null}" Margin="10,0,0,0"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -75,8 +78,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <!--Видео чыкчу грид-->
-                <Grid Grid.Column="0" Background="White">
-                    <MediaElement LoadedBehavior="Manual" UnloadedBehavior="Manual" x:Name="mediaReclam" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
+                <Grid Grid.Column="0" Background="Black">
+                    <MediaElement MediaEnded="mediaReclam_MediaEnded" LoadedBehavior="Manual" UnloadedBehavior="Manual" x:Name="mediaReclam" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
                 </Grid>
                 <!--Очереддер чыкчу жер-->
                 <Grid x:Name="GridWidth" Grid.Column="1" Width="600">
@@ -110,28 +113,8 @@
                     </ListBox>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Background="#0A6E9E" MouseDown="Grid_MouseDown">
-                <Canvas x:Name="Canvas" Background="Transparent" Height="150"  HorizontalAlignment="Left"
-                VerticalAlignment="Top">
-
-                    <TextBlock Canvas.Right="0"  Margin="0,0,0,0" VerticalAlignment="Bottom" FontSize="33"  FontWeight="Bold" Foreground="White" 
-                       Text="Тестовый текст Новая задача - сделать бегущую строку в WPF приложении. Делается очень просто через XAML.
-Значения From и To задаются исходя из размера окна программы + длина текста(в 2 раза больше окна)." >
-                        <TextBlock.Triggers>
-                            <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard SpeedRatio="0.5" Timeline.DesiredFrameRate="1000">
-                                            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" From="1800" To="-1900" 
-                                                    Duration="00:00:15"  RepeatBehavior="Forever" >
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </TextBlock.Triggers>
-                    </TextBlock>
-                </Canvas>
+            <Grid Grid.Row="2" Background="#0A6E9E" Height="60" VerticalAlignment="Bottom">
+                
             </Grid>
         </Grid>
     </Grid>

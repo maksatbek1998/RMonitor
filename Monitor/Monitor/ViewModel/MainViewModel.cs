@@ -82,28 +82,37 @@ namespace Monitor.ViewModel
 
         public void timeDelation(ref MediaElement obj)
         {
-            element = (MediaElement)obj;
-            dataBase = new DataBase.BaseData();
-            dataBase.del += bd =>
+            try
             {
-                if (bd.Rows.Count > 0)
+                element = (MediaElement)obj;
+                dataBase = new DataBase.BaseData();
+                dataBase.del += bd =>
                 {
-                    for (int i = 0; i < bd.Rows.Count; i++)
+                    if (bd.Rows.Count > 0)
                     {
-                        if (DateTime.Now.ToString() == bd.Rows[i][1].ToString())
+                        for (int i = 0; i < bd.Rows.Count; i++)
                         {
-                            element.Source = new Uri(bd.Rows[i][6].ToString());
-                            element.Play();
-                        }
-                        else if (DateTime.Now.ToString() == bd.Rows[i][2].ToString())
-                        {
-                            element.Stop();
+                            if (DateTime.Now.ToString() == bd.Rows[i][0].ToString())
+                            {
+                                element.Source = new Uri(bd.Rows[i][2].ToString());
+                                element.Play();
+
+                            }
+                            else if (DateTime.Now.ToString() == bd.Rows[i][1].ToString())
+                            {
+                                element.Stop();
+                            }
                         }
                     }
-                }
-            };
-            dataBase.SoursData("SELECT * FROM ads_schedules JOIN ads ON ads.id = ads_schedules.ads_id");
+                };
+                dataBase.SoursData("SELECT a.start_date,a.end_date,d.video_url FROM ads_schedules AS a INNER JOIN ads AS d ON a.ads_id = d.id");
+            }
+            catch
+            {
+                MessageBox.Show("Видео не найдено");
+            }
         }
+
         #endregion
 
     }
