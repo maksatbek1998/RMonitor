@@ -8,11 +8,18 @@
         xmlns:FA="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+        Title="MainWindow" Loaded="Window_Loaded" Height="700" Width="1200"  
+        WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
     <Window.Resources>
+        <Storyboard x:Key="Storyboard1" AutoReverse="True" RepeatBehavior="0:0:4" FillBehavior="Stop">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="NumberText">
+                <EasingColorKeyFrame KeyTime="0" Value="#01B3A4"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.7" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
         <Storyboard x:Key="Animation_For_Video"/>
     </Window.Resources>
     <Window.Triggers>
@@ -20,13 +27,12 @@
             <BeginStoryboard Storyboard="{StaticResource Animation_For_Video}"/>
         </EventTrigger>
     </Window.Triggers>
-
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="162"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
@@ -42,12 +48,10 @@
                     <!--РСК нын иконкасы-->
                     <StackPanel Orientation="Horizontal" Margin="25,25,0,10" Grid.Column="0">
                         <Button x:Name="buttonClickMain" Visibility="Hidden" Click="buttonClickMain_Click"/>
-                        <Image Source="Image/logo2.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel>
-                            <TextBlock Text="ОШ ГУМАНИТАРДЫК" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
-                            <TextBlock Text="ПЕДАГОГИКАЛЫК" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
-                            <TextBlock Text="ИНИСТИТУТУ" Foreground="White" FontSize="30" FontWeight="Bold" Margin="5,0"/>
-
+                            <TextBlock x:Name="MainText" Foreground="White" FontSize="40" FontWeight="Bold" Width="550" Height="120" TextWrapping="Wrap" Margin="5,0"/>
+                            <TextBox Visibility="Hidden" x:Name="IDText" TextChanged="NumberTxt_TextChanged"/>
                         </StackPanel>
                     </StackPanel>
                     <!--Очереди жеткен адамды чакыруучу анимационный текст-->
@@ -58,7 +62,7 @@
                                 <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox IsEnabled="False" x:Name="NumberTxt" FontSize="65" Foreground="White" VerticalAlignment="Center" BorderThickness="0" HorizontalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" TextChanged="NumberTxt_TextChanged" Background="{x:Null}" SelectionBrush="{x:Null}"/>
+                            <TextBox IsEnabled="False" x:Name="NumberTxt" FontSize="65" Foreground="White" VerticalAlignment="Center" BorderThickness="0" HorizontalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0" Background="{x:Null}" SelectionBrush="{x:Null}"/>
                             <Image x:Name="imageAwesome" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="153">
                             </Image>
                             <TextBlock Visibility="Hidden" x:Name="Lan"/>
@@ -75,14 +79,14 @@
             <Grid x:Name="grid" Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="55*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="45*"/>
                 </Grid.ColumnDefinitions>
                 <!--Видео чыкчу грид-->
                 <Grid Grid.Column="0" Background="Black">
                     <MediaElement MediaEnded="mediaReclam_MediaEnded" LoadedBehavior="Manual" UnloadedBehavior="Manual" x:Name="mediaReclam" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
                 </Grid>
                 <!--Очереддер чыкчу жер-->
-                <Grid x:Name="GridWidth" Grid.Column="1" Width="600">
+                <Grid x:Name="GridWidth" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="65"/>
                         <RowDefinition Height="*"/>
@@ -113,8 +117,8 @@
                     </ListBox>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Background="#0A6E9E" Height="60" VerticalAlignment="Bottom">
-                
+            <Grid Grid.Row="2" Background="#0A6E9E" Height="40" VerticalAlignment="Bottom">
+
             </Grid>
         </Grid>
     </Grid>

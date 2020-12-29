@@ -204,3 +204,5 @@ D:\C# projects\OGPISEO\Monitor\Monitor\obj\Debug\Monitor.exe
 D:\C# projects\OGPISEO\Monitor\Monitor\obj\Debug\Monitor.pdb
 D:\C# projects\OGPISEO\Monitor\Monitor\obj\Debug\Message.g.cs
 D:\C# projects\OGPISEO\Monitor\Monitor\obj\Debug\Message.baml
+D:\C# projects\rsk\RMonitor\Monitor\Monitor\bin\Debug\NAudio.dll
+D:\C# projects\rsk\RMonitor\Monitor\Monitor\bin\Debug\NAudio.xml

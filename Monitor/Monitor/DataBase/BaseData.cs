@@ -7,7 +7,7 @@ namespace Monitor.DataBase
 {
     class BaseData
     {
-        public MySqlConnection connection = new MySqlConnection("datasource=192.168.0.123; port=3306;Initial Catalog='ogpi';username=admin;password=2;CharSet=utf8;");
+        public MySqlConnection connection = new MySqlConnection("datasource=192.168.0.118; port=3306;Initial Catalog='rskbank';username=admin;password=1;CharSet=utf8;");
         public delegate void SendData(DataTable data);
         public event SendData del;
         public void SoursData(string s)
