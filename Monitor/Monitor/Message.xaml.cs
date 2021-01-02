@@ -11,14 +11,12 @@ namespace Monitor
     /// </summary>
     public partial class Message : Window
     {
-        MediaElement elemnet;
-        public Message(ref MediaElement obj, string klient, string okno)
+
+        public Message(string klient, string okno)
         {
             InitializeComponent();
             KLIENT.Text = klient;
             OKNO.Text = okno;
-            elemnet = obj;
-            elemnet.Volume = 0.1;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -30,7 +28,6 @@ namespace Monitor
         }
         public void Time(object sender, EventArgs e)
         {
-            elemnet.Volume = 0.5;
             this.Close();
         }
     }

@@ -6,263 +6,276 @@ namespace Monitor.Models
     {
         public static void MusicPlay(string numSound, string operSound, string Lang)
         {
-            if (Lang == "ru")
+            try
             {
-                SoundPlayer Sound = new SoundPlayer(@"D:\music\ogpisound\ru\ЭКГ.wav");
-                Sound.PlaySync();
-                Sound.SoundLocation = @"D:\music\ogpisound\ru\а.wav";
-                Sound.PlaySync();
-                if (int.Parse(numSound) <= 100)
+                if (Lang == "RU")
                 {
-                    Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSound + ".wav";
+                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\ru\word\номер.wav");
                     Sound.PlaySync();
-                }
-                else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
-                {
-                    char sto = numSound[0];
-                    string stosh = sto + "00";
-                    Sound.SoundLocation = @"D:\music\ogpisound\ru\" + stosh + ".wav";
+                    char suff = numSound[0];
+                    numSound = numSound.Substring(1);
+                    Sound.SoundLocation = @"C:\rsk\sound\ru\latters\" + suff + ".wav";
                     Sound.PlaySync();
-
-                    if (numSound[1] == '0')
+                    if (int.Parse(numSound) <= 100)
                     {
-                        Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSound[2] + ".wav";
+                        Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSound + ".wav";
                         Sound.PlaySync();
                     }
-                    else
+                    else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
                     {
-                        string numSoundSub = numSound.Substring(1);
-                        Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSoundSub + ".wav";
-                        Sound.PlaySync();
-                    }
-                }
-                else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
-                {
-                    if (numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\ru\" + stosh + ".wav";
-                        Sound.PlaySync();
-                    }
-                    else
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\ru\" + stosh + ".wav";
+                        char sto = numSound[0];
+                        string stosh = sto + "00";
+                        Sound.SoundLocation = @"C:\rsk\sound\ru\" + stosh + ".wav";
                         Sound.PlaySync();
 
-
-                        if (numSound[1] == '0' && numSound[2] == '0')
+                        if (numSound[1] == '0')
                         {
-                            Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSound[3] + ".wav";
-                            Sound.PlaySync();
-                        }
-                        else if (numSound[1] == '0' && numSound[2] != '0')
-                        {
-                            string stos = numSound.Substring(2);
-                            Sound.SoundLocation = @"D:\music\ogpisound\ru\" + stos + ".wav";
+                            Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSound[2] + ".wav";
                             Sound.PlaySync();
                         }
                         else
                         {
-                            char sto = numSound[1];
-                            string stoshi = sto + "00";
-                            Sound.SoundLocation = @"D:\music\ogpisound\ru\" + stoshi + ".wav";
-                            Sound.PlaySync();
-                            if (numSound[2] == '0')
-                            {
-                                Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSound[3] + ".wav";
-                                Sound.PlaySync();
-                            }
-                            else
-                            {
-                                string numSoundSub = numSound.Substring(2);
-                                Sound.SoundLocation = @"D:\music\ogpisound\ru\" + numSoundSub + ".wav";
-                                Sound.PlaySync();
-                            }
-                        }
-                    }
-                }
-                Sound.SoundLocation = @"D:\music\ogpisound\ru\пройдите_в_отдел.wav";
-                Sound.PlaySync();
-                Sound.SoundLocation = @"D:\music\ogpisound\ru\" + operSound + ".wav";
-                Sound.PlaySync();
-            }
-            else if (Lang == "kg")
-            {
-                SoundPlayer Sound = new SoundPlayer(@"D:\music\ogpisound\kg\А.wav");
-                Sound.PlaySync();
-                if (int.Parse(numSound) <= 100)
-                {
-                    Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSound + ".wav";
-                    Sound.PlaySync();
-                }
-                else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
-                {
-                    char sto = numSound[0];
-                    string stosh = sto + "00";
-                    Sound.SoundLocation = @"D:\music\ogpisound\kg\" + stosh + ".wav";
-                    Sound.PlaySync();
-
-                    if (numSound[1] == '0')
-                    {
-                        Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSound[2] + ".wav";
-                        Sound.PlaySync();
-                    }
-                    else
-                    {
-                        string numSoundSub = numSound.Substring(1);
-                        Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSoundSub + ".wav";
-                        Sound.PlaySync();
-                    }
-                }
-                else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
-                {
-                    if (numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\kg\" + stosh + ".wav";
-                        Sound.PlaySync();
-                    }
-                    else
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\kg\" + stosh + ".wav";
-                        Sound.PlaySync();
-
-
-                        if (numSound[1] == '0' && numSound[2] == '0')
-                        {
-                            Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSound[3] + ".wav";
+                            string numSoundSub = numSound.Substring(1);
+                            Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSoundSub + ".wav";
                             Sound.PlaySync();
                         }
-                        else if (numSound[1] == '0' && numSound[2] != '0')
+                    }
+                    else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
+                    {
+                        if (numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
                         {
-                            string stos = numSound.Substring(2);
-                            Sound.SoundLocation = @"D:\music\ogpisound\kg\" + stos + ".wav";
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\ru\" + stosh + ".wav";
                             Sound.PlaySync();
                         }
                         else
                         {
-                            char sto = numSound[1];
-                            string stoshi = sto + "00";
-                            Sound.SoundLocation = @"D:\music\ogpisound\kg\" + stoshi + ".wav";
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\ru\" + stosh + ".wav";
                             Sound.PlaySync();
-                            if (numSound[2] == '0')
+                            if (numSound[1] == '0' && numSound[2] == '0')
                             {
-                                Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSound[3] + ".wav";
+                                Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSound[3] + ".wav";
+                                Sound.PlaySync();
+                            }
+                            else if (numSound[1] == '0' && numSound[2] != '0')
+                            {
+                                string stos = numSound.Substring(2);
+                                Sound.SoundLocation = @"C:\rsk\sound\ru\" + stos + ".wav";
                                 Sound.PlaySync();
                             }
                             else
                             {
-                                string numSoundSub = numSound.Substring(2);
-                                Sound.SoundLocation = @"D:\music\ogpisound\kg\" + numSoundSub + ".wav";
+                                char sto = numSound[1];
+                                string stoshi = sto + "00";
+                                Sound.SoundLocation = @"C:\rsk\sound\ru\" + stoshi + ".wav";
                                 Sound.PlaySync();
+                                if (numSound[2] == '0')
+                                {
+                                    Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSound[3] + ".wav";
+                                    Sound.PlaySync();
+                                }
+                                else
+                                {
+                                    string numSoundSub = numSound.Substring(2);
+                                    Sound.SoundLocation = @"C:\rsk\sound\ru\" + numSoundSub + ".wav";
+                                    Sound.PlaySync();
+                                }
                             }
                         }
                     }
-                }
-                Sound.SoundLocation = @"D:\music\ogpisound\kg\ЭКГ.wav";
-                Sound.PlaySync();
-                Sound.SoundLocation = @"D:\music\ogpisound\kg\" + operSound + ".wav";
-                Sound.PlaySync();
-                Sound.SoundLocation = @"D:\music\ogpisound\kg\РегистрРегистр.wav";
-                Sound.PlaySync();
-            }
-            else if (Lang == "en")
-            {
-                SoundPlayer Sound = new SoundPlayer(@"D:\music\ogpisound\en\A.wav");
-                Sound.PlaySync();
-                if (int.Parse(numSound) <= 100)
-                {
-                    Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSound + ".wav";
+                    Sound.SoundLocation = @"C:\rsk\sound\ru\word\пройдите_к_окну.wav";
+                    Sound.PlaySync();
+                    Sound.SoundLocation = @"C:\rsk\sound\ru\" + operSound + ".wav";
                     Sound.PlaySync();
                 }
-                else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
+                else if (Lang == "KG")
                 {
-                    char sto = numSound[0];
-                    string stosh = sto + "00";
-                    Sound.SoundLocation = @"D:\music\ogpisound\en\" + stosh + ".wav";
+                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\kg\word\номер.wav");
                     Sound.PlaySync();
-
-                    if (numSound[1] == '0')
+                    char suff = numSound[0];
+                    numSound = numSound.Substring(1);
+                    Sound.SoundLocation = @"C:\rsk\sound\ru\latters\" + suff + ".wav";
+                    Sound.PlaySync();
+                    if (int.Parse(numSound) <= 100)
                     {
-                        Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSound[2] + ".wav";
+                        Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSound + ".wav";
                         Sound.PlaySync();
                     }
-                    else
+                    else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
                     {
-                        string numSoundSub = numSound.Substring(1);
-                        Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSoundSub + ".wav";
-                        Sound.PlaySync();
-                    }
-                }
-                else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
-                {
-                    if ( numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\en\" + stosh + ".wav";
-                        Sound.PlaySync();
-                    }
-                    else
-                    {
-                        string w = numSound.Substring(1);
-                        char tish = numSound[0];
-                        string stosh = tish + "000";
-                        Sound.SoundLocation = @"D:\music\ogpisound\en\" + stosh + ".wav";
+                        char sto = numSound[0];
+                        string stosh = sto + "00";
+                        Sound.SoundLocation = @"C:\rsk\sound\kg\" + stosh + ".wav";
                         Sound.PlaySync();
 
-
-                        if (numSound[1] == '0' && numSound[2] == '0')
+                        if (numSound[1] == '0')
                         {
-                            Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSound[3] + ".wav";
-                            Sound.PlaySync();
-                        }
-                        else if (numSound[1] == '0' && numSound[2] != '0')
-                        {
-                            string stos = numSound.Substring(2);
-                            Sound.SoundLocation = @"D:\music\ogpisound\en\" + stos + ".wav";
+                            Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSound[2] + ".wav";
                             Sound.PlaySync();
                         }
                         else
                         {
-                            char sto = numSound[1];
-                            string stoshi = sto + "00";
-                            Sound.SoundLocation = @"D:\music\ogpisound\en\" + stoshi + ".wav";
+                            string numSoundSub = numSound.Substring(1);
+                            Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSoundSub + ".wav";
                             Sound.PlaySync();
-                            if (numSound[2] == '0')
+                        }
+                    }
+                    else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
+                    {
+                        if (numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
+                        {
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\kg\" + stosh + ".wav";
+                            Sound.PlaySync();
+                        }
+                        else
+                        {
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\kg\" + stosh + ".wav";
+                            Sound.PlaySync();
+
+
+                            if (numSound[1] == '0' && numSound[2] == '0')
                             {
-                                Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSound[3] + ".wav";
+                                Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSound[3] + ".wav";
+                                Sound.PlaySync();
+                            }
+                            else if (numSound[1] == '0' && numSound[2] != '0')
+                            {
+                                string stos = numSound.Substring(2);
+                                Sound.SoundLocation = @"C:\rsk\sound\kg\" + stos + ".wav";
                                 Sound.PlaySync();
                             }
                             else
                             {
-                                string numSoundSub = numSound.Substring(2);
-                                Sound.SoundLocation = @"D:\music\ogpisound\en\" + numSoundSub + ".wav";
+                                char sto = numSound[1];
+                                string stoshi = sto + "00";
+                                Sound.SoundLocation = @"C:\rsk\sound\kg\" + stoshi + ".wav";
                                 Sound.PlaySync();
+                                if (numSound[2] == '0')
+                                {
+                                    Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSound[3] + ".wav";
+                                    Sound.PlaySync();
+                                }
+                                else
+                                {
+                                    string numSoundSub = numSound.Substring(2);
+                                    Sound.SoundLocation = @"C:\rsk\sound\kg\" + numSoundSub + ".wav";
+                                    Sound.PlaySync();
+                                }
                             }
                         }
                     }
+                    Sound.SoundLocation = @"C:\rsk\sound\kg\window\" + operSound + "-.wav";
+                    Sound.PlaySync();
+                    Sound.SoundLocation = @"C:\rsk\sound\kg\word\терезеге_келиниз.wav";
+                    Sound.PlaySync();
                 }
-                Sound.SoundLocation = @"D:\music\ogpisound\en\Сиздин талон жараксыз.wav";
-                Sound.PlaySync();
-                Sound.SoundLocation = @"D:\music\ogpisound\en\" + operSound + ".wav";
-                Sound.PlaySync();
+
+                else if (Lang == "EN")
+                {
+                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\en\ЭКГ.wav");
+                    Sound.PlaySync();
+                    char suff = numSound[0];
+                    numSound = numSound.Substring(1);
+                    Sound.SoundLocation = @"C:\rsk\sound\en\" + suff + ".wav";
+                    Sound.PlaySync();
+                    if (int.Parse(numSound) <= 100)
+                    {
+                        Sound.SoundLocation = @"C:\rsk\sound\en\" + numSound + ".wav";
+                        Sound.PlaySync();
+                    }
+                    else if (int.Parse(numSound) > 100 && int.Parse(numSound) < 1000)
+                    {
+                        char sto = numSound[0];
+                        string stosh = sto + "00";
+                        Sound.SoundLocation = @"C:\rsk\sound\en\" + stosh + ".wav";
+                        Sound.PlaySync();
+
+                        if (numSound[1] == '0')
+                        {
+                            Sound.SoundLocation = @"C:\rsk\sound\en\" + numSound[2] + ".wav";
+                            Sound.PlaySync();
+                        }
+                        else
+                        {
+                            string numSoundSub = numSound.Substring(1);
+                            Sound.SoundLocation = @"C:\rsk\sound\en\" + numSoundSub + ".wav";
+                            Sound.PlaySync();
+                        }
+                    }
+                    else if (int.Parse(numSound) >= 1000 && int.Parse(numSound) < 10000)
+                    {
+                        if (numSound[1] == '0' && numSound[2] == '0' && numSound[3] == '0')
+                        {
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\en\" + stosh + ".wav";
+                            Sound.PlaySync();
+                        }
+                        else
+                        {
+                            string w = numSound.Substring(1);
+                            char tish = numSound[0];
+                            string stosh = tish + "000";
+                            Sound.SoundLocation = @"C:\rsk\sound\en\" + stosh + ".wav";
+                            Sound.PlaySync();
+
+
+                            if (numSound[1] == '0' && numSound[2] == '0')
+                            {
+                                Sound.SoundLocation = @"C:\rsk\sound\en\" + numSound[3] + ".wav";
+                                Sound.PlaySync();
+                            }
+                            else if (numSound[1] == '0' && numSound[2] != '0')
+                            {
+                                string stos = numSound.Substring(2);
+                                Sound.SoundLocation = @"C:\rsk\sound\en\" + stos + ".wav";
+                                Sound.PlaySync();
+                            }
+                            else
+                            {
+                                char sto = numSound[1];
+                                string stoshi = sto + "00";
+                                Sound.SoundLocation = @"C:\rsk\sound\en\" + stoshi + ".wav";
+                                Sound.PlaySync();
+                                if (numSound[2] == '0')
+                                {
+                                    Sound.SoundLocation = @"C:\rsk\sound\en\" + numSound[3] + ".wav";
+                                    Sound.PlaySync();
+                                }
+                                else
+                                {
+                                    string numSoundSub = numSound.Substring(2);
+                                    Sound.SoundLocation = @"C:\rsk\sound\en\" + numSoundSub + ".wav";
+                                    Sound.PlaySync();
+                                }
+                            }
+                        }
+                    }
+                    Sound.SoundLocation = @"C:\rsk\sound\en\пройдите_в_отдел.wav";
+                    Sound.PlaySync();
+                    Sound.SoundLocation = @"C:\rsk\sound\en\" + operSound + ".wav";
+                    Sound.PlaySync();
+                }
+                else
+                {
+                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\muz\ding.wav");
+                    Sound.PlaySync();
+                }
             }
-            else
+            catch
             {
-                SoundPlayer Sound = new SoundPlayer(@"D:\music\ogpisound\kg\А.wav");
-                Sound.PlaySync();
             }
         }
     }
