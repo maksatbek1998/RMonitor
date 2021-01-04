@@ -50,8 +50,8 @@
                         <Button x:Name="buttonClickMain" Visibility="Hidden" Click="buttonClickMain_Click"/>
                         <Image Source="Image/Icon/RSK icon.png" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <StackPanel>
-                            <TextBlock x:Name="MainText" Foreground="White" FontSize="40" FontWeight="Bold" Width="550" Height="120" TextWrapping="Wrap" Margin="5,0"/>
-                            <TextBox Visibility="Hidden" x:Name="IDText" TextChanged="NumberTxt_TextChanged"/>
+                            <TextBlock x:Name="MainText" Foreground="White" FontSize="45" FontWeight="Bold" Width="500" Height="120" TextWrapping="Wrap" Margin="20,0"/>
+                            <TextBox Visibility="Hidden" x:Name="IDText"/>
                         </StackPanel>
                     </StackPanel>
                     <!--Очереди жеткен адамды чакыруучу анимационный текст-->
@@ -83,6 +83,7 @@
                 </Grid.ColumnDefinitions>
                 <!--Видео чыкчу грид-->
                 <Grid Grid.Column="0" Background="Black">
+                    <Image Visibility="Hidden" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill" x:Name="ReclamImage"/>
                     <MediaElement Volume="0" MediaEnded="mediaReclam_MediaEnded" LoadedBehavior="Manual" UnloadedBehavior="Manual" x:Name="mediaReclam" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
                 </Grid>
                 <!--Очереддер чыкчу жер-->

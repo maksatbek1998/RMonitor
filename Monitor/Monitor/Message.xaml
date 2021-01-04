@@ -7,7 +7,7 @@
         xmlns:FA="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:vm="clr-namespace:Monitor.ViewModel"
         mc:Ignorable="d"
-        Title="Message" Height="280" Width="850" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Loaded="Window_Loaded">
+        Title="Message" Closed="Window_Closed" Height="280" Width="850" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" Loaded="Window_Loaded">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>

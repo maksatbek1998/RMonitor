@@ -116,7 +116,9 @@
     <Compile Include="Message.xaml.cs">
       <DependentUpon>Message.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImageListVar.cs" />
     <Compile Include="Models\Naudio.cs" />
+    <Compile Include="Models\SoundTurn.cs" />
     <Compile Include="Models\Turns.cs" />
     <Compile Include="ViewModel\BaseViews\BaseViewModel.cs" />
     <Compile Include="ViewModel\BaseViews\CommandView.cs" />

@@ -1,32 +1,40 @@
 ﻿using Monitor.Models;
 using System;
+using System.Windows;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Threading;
-using System.Windows;
+using System.Threading.Tasks;
+
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using WpfAnimatedGif;
-using System.Windows.Documents;
-using System.Windows.Media;
 
 namespace Monitor
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+    /// </summary>  
     public partial class MainWindow : Window
     {
+        #region переменные
+
+        SerialPort port1 = new SerialPort("COM10", 9600, Parity.None, 8, StopBits.One);
         DataBase.BaseData dataBase;
-        List<string> videolist;
-        static int media = 0, mediatime = 0,time =0,text = 0;
+        List<ImageListVar> videolist;
+        List<Turns> gridList = new List<Turns>();
+        Stack<SoundTurn> soundTurns = new Stack<SoundTurn>();
+        static int media = 0, mediatime = 0,time = 0, text = 0, imagetime = 0, imageduration = 0;
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        string number, opera, langu;
-        Thread myThread;
+        public static bool soundBool = true;
         static int ads_time = 0;
+
+
+        #endregion
 
         public MainWindow()
         {
@@ -46,12 +54,11 @@ namespace Monitor
                         time = marquee.Text.Length;
                     }
                 };
-                dataBase.SoursData("select name_b,(SELECT tvtablo_text FROM tvtablos_ticker),(SELECT rskbank.options.value FROM rskbank.options WHERE rskbank.options.`key` = 'Ads_time') from branches");
-
+                dataBase.SoursData("select name_b,(SELECT tvtablo_text FROM tvtablos_ticker),(SELECT rskbank.options.value FROM rskbank.options WHERE rskbank.options.`key` = 'Ads_time') from branches limit 1");
             }
             catch
             {
-
+                //System.Windows.MessageBox.Show("mainwindow");
             }
             #region Timer
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -59,12 +66,12 @@ namespace Monitor
             dispatcherTimer.Start();
             #endregion
 
-            MediaStart();
-
             Personto_to_walk();
 
             this.MaximizeToSecondaryMonitor();
         }
+
+        #region Переход на другое окно
 
         public void MaximizeToSecondaryMonitor()
         {
@@ -84,43 +91,117 @@ namespace Monitor
                 }
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            LeftToRightMarqueeOnTextBox();
+        }
+
+        #endregion
+
+        #region Timer
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            text++;
-            mediatime++;
-            UpdateQ();
-            if (mediatime == ads_time && GridWidth.Width==600)
+            try
             {
-                Animation_For_Video();
-                mediatime = 0;
+                text++;
+                mediatime++;
+                UpdateQ();
+                if (soundTurns.Count==0 && gridList.Count>0) 
+                {
+                    NumberTxt.Text = gridList[0].number;
+                    OperTxt.Text = gridList[0].oper;
+                }
+                if (imagetime > 0)
+                {
+                    imagetime++;
+                    if (imagetime == imageduration * 60)
+                    {
+                        media++;
+                        imagetime = 0; 
+                        MediaStart();
+                    }
+                }
+                if (mediatime == ads_time && GridWidth.Width == 600)
+                {
+                    Animation_For_Video();
+                    mediatime = 0;
+                }
+                if (text == marquee.Text.Length * 9)
+                {
+                    dataBase = new DataBase.BaseData();
+                    text = 0;
+                    marquee.Text = dataBase.DisplayReturnOne("SELECT tvtablo_text FROM tvtablos_ticker");
+                    LeftToRightMarqueeOnTextBox();
+                }
+                if (soundTurns.Count > 0 && soundBool)
+                {
+                    NumberTxt_TextChanged();
+                }
+                else
+                {
+                    soundTurns = new Stack<SoundTurn>();
+                }
             }
-            if (text == marquee.Text.Length * 9) 
+            catch
             {
-                dataBase = new DataBase.BaseData();
-                text = 0;
-                marquee.Text = dataBase.DisplayReturnOne("SELECT tvtablo_text FROM tvtablos_ticker");
-                LeftToRightMarqueeOnTextBox();
+                //System.Windows.MessageBox.Show("timer");
             }
         }
+
+        #endregion
+
+        #region Video
 
         public void MediaStart()
         {
-            if (videolist.Count > 0)
+            try
             {
-                mediaReclam.Source = new Uri(videolist[media].ToString(), UriKind.RelativeOrAbsolute);
-                mediaReclam.Play();
+                if (videolist.Count > 0)
+                {
+                    if (media < videolist.Count)
+                    {
+                        if (videolist.Count > 0 && videolist[media].type == "video")
+                        {
+                            mediaReclam.Visibility = Visibility.Visible;
+                            ReclamImage.Visibility = Visibility.Hidden;
+                            mediaReclam.Source = new Uri(videolist[media].uri.ToString());
+                            mediaReclam.Play();
+                        }
+                        else/* if (videolist.Count > 0 && videolist[media].type == "image")*/
+                        {
+                            mediaReclam.Visibility = Visibility.Hidden;
+                            ReclamImage.Visibility = Visibility.Visible;
+                            ReclamImage.Source = new BitmapImage(new Uri(videolist[media].uri));
+                            imageduration = int.Parse(videolist[media].duration.ToString());
+                            imagetime = 1;
+                        }
+                    }
+                    else
+                    {
+                        timeDelation();
+                    }
+                }
+                else
+                {
+                    mediaReclam.Visibility = Visibility.Hidden;
+                    ReclamImage.Visibility = Visibility.Visible;
+                    DataBase.BaseData data = new DataBase.BaseData();
+                    ReclamImage.Source = new BitmapImage(new Uri(data.DisplayReturnOne("SELECT o.value FROM rskbank.options AS o WHERE o.`key` = 'Tv_Default_Image'")));
+                }
             }
-            else
+            catch
             {
+                //System.Windows.MessageBox.Show("mediastart");
+            }
 
-            }
         }
-
         public void timeDelation()
         {
             try
             {
-                videolist = new List<string>();
+                videolist = new List<ImageListVar>();
                 dataBase = new DataBase.BaseData();
                 dataBase.del += bd =>
                 {
@@ -128,154 +209,43 @@ namespace Monitor
                     {
                         for (int i = 0; i < bd.Rows.Count; i++)
                         {
-                            videolist.Add(bd.Rows[i][2].ToString());
+                            videolist.Add(new ImageListVar { uri = bd.Rows[i][1].ToString(), type = bd.Rows[i][0].ToString(), duration = bd.Rows[i][2].ToString() });
                         }
                     }
-
                 };
-                dataBase.SoursData("SELECT a.start_date,a.end_date,d.video_url FROM ads_schedules AS a INNER JOIN ads AS d ON a.ads_id = d.id");
+                dataBase.SoursData("SELECT t.`type`,t.file_path,a.duration FROM ads_schedules AS a INNER JOIN ads AS t ON a.ads_id = t.id");
+                media = 0;
+                MediaStart();
             }
             catch
             {
-
+                //System.Windows.MessageBox.Show("timedelation");
             }
 
         }
-
-        private void buttonClickMain_Click(object sender, EventArgs e)
-        {
-            Animation_For_Video();
-        }
-
-        #region Анимация
-
-        public void Personto_to_walk()
-        {
-            var image = new BitmapImage();
-            image.BeginInit();
-            image.UriSource = new Uri("Image/GIF/Person.gif", UriKind.Relative);
-            image.EndInit();
-            ImageBehavior.SetAnimatedSource(imageAwesome, image);
-            ImageBehavior.SetRepeatBehavior(imageAwesome, new System.Windows.Media.Animation.RepeatBehavior());
-        }
-
-        #endregion
-
-        public void UpdateQ()
-        {
-            try
-            {
-                if (List.Items.Count > 0)
-                {
-                    List.Items.Clear();
-                }
-                else if (List.Items.Count == 0)
-                {
-                    NumberTxt.Text = "";
-                    OperTxt.Text = "";
-                }
-                dataBase = new DataBase.BaseData();
-                dataBase.del += db =>
-                {
-                    if (db.Rows.Count > 0)
-                    {
-                        for (int i = 0; i < db.Rows.Count; i++)
-                        {
-                            List.Items.Add
-                             (
-                                 new Turns
-                                 {
-                                     number = db.Rows[i][1].ToString(),
-                                     oper = db.Rows[i][2].ToString()
-                                 });
-                        }
-
-                        OperTxt.Text = opera = db.Rows[0][2].ToString();
-                        langu = db.Rows[0][3].ToString();
-                        NumberTxt.Text = number = db.Rows[0][1].ToString();
-                        IDText.Text = db.Rows[0][0].ToString();
-                    }
-                };
-                dataBase.SoursData("SELECT t.id,t.turn_nomer,t.window_nomer,t.lang from tvtablos_current_turns AS t ORDER BY t.id DESC limit 10");
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            LeftToRightMarqueeOnTextBox();
-        }
-
-        private void LeftToRightMarqueeOnTextBox()
-        {
-            DoubleAnimation doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = this.ActualWidth;
-            doubleAnimation.To = -marquee.ActualWidth;
-            doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(time/3+1)); // provide an appropriate  duration 
-            marquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
-        }
-        private void NumberTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (List.Items.Count > 0)
-            {
-                if (imageAwesome.Visibility == Visibility.Hidden)
-                { imageAwesome.Visibility = Visibility.Visible; }
-
-                Message numberWindow = new Message(NumberTxt.Text, OperTxt.Text);
-                numberWindow.Owner = this;
-                numberWindow.Show();
-                if (GridWidth.Width != 600)
-                {
-                    Animation_For_Video();
-                    mediatime = 0;
-                }
-                else
-                {
-                    mediatime = 0;
-                }
-                myThread = new Thread(new ThreadStart(asyncMuz));
-                myThread.Start();
-            }
-            else
-            {
-                if (imageAwesome.Visibility == Visibility.Visible)
-                {
-                    imageAwesome.Visibility = Visibility.Hidden;
-                }
-
-            }
-        }
-
-
-        #region AsyncMuzic
-
-        private void asyncMuz()
-        {
-            Naudio.MusicPlay(number, opera, langu);
-        }
-
-        #endregion
 
         private void mediaReclam_MediaEnded(object sender, RoutedEventArgs e)
         {
             if (media < videolist.Count - 1)
             {
-                media++;
                 mediaReclam.Stop();
-                mediaReclam.Source = new Uri(videolist[media].ToString(), UriKind.RelativeOrAbsolute);
-                mediaReclam.Play();
+                media++;
+                MediaStart();
             }
             else
             {
-                media = 0;
                 mediaReclam.Stop();
                 timeDelation();
-                MediaStart();
             }
+        }
+
+        #endregion
+
+        #region Анимация
+
+        private void buttonClickMain_Click(object sender, EventArgs e)
+        {
+            Animation_For_Video();
         }
 
         public void Animation_For_Video()
@@ -308,6 +278,210 @@ namespace Monitor
             }
 
         }
+
+        public void Personto_to_walk()
+        {
+            var image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri("Image/GIF/Person.gif", UriKind.Relative);
+            image.EndInit();
+            ImageBehavior.SetAnimatedSource(imageAwesome, image);
+            ImageBehavior.SetRepeatBehavior(imageAwesome, new System.Windows.Media.Animation.RepeatBehavior());
+        }
+
+        private void LeftToRightMarqueeOnTextBox()
+        {
+            DoubleAnimation doubleAnimation = new DoubleAnimation();
+            doubleAnimation.From = this.ActualWidth;
+            doubleAnimation.To = -marquee.ActualWidth;
+            doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(time / 4 + 1)); // provide an appropriate  duration 
+            marquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
+        }
+
+        #endregion
+
+        #region Обновление
+
+        public void UpdateQ()
+        {
+            try
+            {
+                if (gridList.Count < 0 )
+                {
+                    NumberTxt.Text = "";
+                    OperTxt.Text = "";
+                }
+                dataBase = new DataBase.BaseData();
+                dataBase.del += db =>
+                {
+                    if (db.Rows.Count > 0)
+                    {
+                        gridList = new List<Turns>();
+                        for (int i = 0; i < db.Rows.Count; i++)
+                        {
+                            if (db.Rows[i][1].ToString() == "----" && db.Rows[i][4].ToString() == "0")
+                            {
+                                COMWriteAsync("----", db.Rows[i][2].ToString());
+                                DataBase.BaseData data = new DataBase.BaseData();
+                                data.Registr("UPDATE tvtablos_current_turns AS t SET t.is_say ='1' WHERE t.turn_nomer = '----' AND t.window_nomer ='" + db.Rows[i][2].ToString() + "'");
+                            }
+                            if (db.Rows[i][1].ToString() != "----")
+                            {
+                                gridList.Add
+                                 (
+                                     new Turns
+                                     {                                        
+                                         number = db.Rows[i][1].ToString(),
+                                         oper = db.Rows[i][2].ToString()
+                                     });
+                                System.Windows.MessageBox.Show(i.ToString());
+                            }
+                            if (db.Rows[i][4].ToString() == "0" && db.Rows[i][1].ToString() != "----")
+                            {
+                                soundTurns.Push(new SoundTurn
+                                {
+                                    soundnumber = db.Rows[i][1].ToString(),
+                                    sountoper = db.Rows[i][2].ToString(),
+                                    soundlang = db.Rows[i][3].ToString()
+                                });
+                            }
+                        }
+                        List.ItemsSource = gridList;
+
+                    }
+                    else 
+                    {
+                        gridList = new List<Turns>();
+                        List.ItemsSource = gridList;
+                        NumberTxt.Text = "";
+                        OperTxt.Text = "";
+                    }
+                };
+                dataBase.SoursData("SELECT t.id,t.turn_nomer,t.window_nomer,t.lang,t.is_say from tvtablos_current_turns AS t ORDER BY t.id desc limit 10");
+                //}
+            }
+            catch 
+            {
+                //System.Windows.MessageBox.Show("updateq");
+            }
+        }
+
+        #endregion
+
+        #region Sound
+
+        private void NumberTxt_TextChanged()
+        {
+            if (soundBool)
+            {
+                SoundLi(soundTurns.Pop());
+                soundBool = false;
+            }
+        }
+
+        private void SoundLi(SoundTurn sound)
+        {
+            try
+            {
+                if (List.Items.Count > 0)
+                {
+
+                    if (imageAwesome.Visibility == Visibility.Hidden)
+                    {
+                        imageAwesome.Visibility = Visibility.Visible;
+                    }
+                    if (sound.soundlang == "RU" || sound.soundlang == "KG" || sound.soundlang == "EN")
+                    {
+                        Message numberWindow = new Message(sound.soundnumber, sound.sountoper);
+                        numberWindow.Owner = this;
+                        numberWindow.Show();
+                    }
+                    else
+                    {
+                        Message numberWindow = new Message(sound.soundnumber, sound.sountoper, 4);
+                        numberWindow.Owner = this;
+                        numberWindow.Show();
+                    }
+                    NumberTxt.Text = sound.soundnumber;
+                    OperTxt.Text = sound.sountoper;
+
+                    if (GridWidth.Width != 600)
+                    {
+                        Animation_For_Video();
+                        mediatime = 0;
+                    }
+                    else
+                    {
+                        mediatime = 0;
+                    }
+                    AsyncMuz(sound.soundnumber, sound.sountoper, sound.soundlang);
+                    COMWriteAsync(sound.soundnumber, sound.sountoper);
+                }
+
+                else
+                {
+                    if (imageAwesome.Visibility == Visibility.Visible)
+                    {
+                        imageAwesome.Visibility = Visibility.Hidden;
+                    }
+
+                }
+            }
+            catch
+            {
+              //  System.Windows.MessageBox.Show("soundli");
+            }
+        }
+
+        #endregion
+
+        #region AsyncMetods
+
+        public async void AsyncMuz(string n, string o, string l)
+        {
+            await Task.Run(() => asyncMuz(n, o, l));
+        }
+
+        private void asyncMuz(string n, string o, string l)
+        {
+            Naudio.MusicPlay(n, o, l);
+        }
+
+        private void AsyncWrite(string n, string o)
+        {
+            try
+            {
+                port1.Open();
+                string textw = o + " " + ArduinoConverter(n);
+                port1.WriteLine(textw);
+                port1.Close();
+            }
+            catch
+            {
+               // System.Windows.MessageBox.Show("AsyncWrite");
+            }
+        }
+
+        private static string ArduinoConverter(string str)
+        {
+            string rus = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+            string eng = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg";
+            string ready = "";
+            for (int y = 0; y < rus.Length; y++)
+                if (str[0] == rus[y])
+                {
+                    ready = ready + eng[y].ToString();
+                }
+            return ready + str.Remove(0, 1);
+        }
+
+        private async void COMWriteAsync(string n, string o)
+        {
+            Thread.Sleep(100);
+            await Task.Run(() => AsyncWrite(n, o));
+        }
+        #endregion
 
     }
 }

@@ -178,16 +178,16 @@ namespace Monitor.Models
                     Sound.SoundLocation = @"C:\rsk\sound\kg\window\" + operSound + "-.wav";
                     Sound.PlaySync();
                     Sound.SoundLocation = @"C:\rsk\sound\kg\word\терезеге_келиниз.wav";
-                    Sound.PlaySync();
+                    Sound.PlaySync(); 
                 }
 
                 else if (Lang == "EN")
                 {
-                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\en\ЭКГ.wav");
+                    SoundPlayer Sound = new SoundPlayer(@"C:\rsk\sound\en\word\номер.wav");
                     Sound.PlaySync();
                     char suff = numSound[0];
                     numSound = numSound.Substring(1);
-                    Sound.SoundLocation = @"C:\rsk\sound\en\" + suff + ".wav";
+                    Sound.SoundLocation = @"C:\rsk\sound\en\latters\" + suff + ".wav";
                     Sound.PlaySync();
                     if (int.Parse(numSound) <= 100)
                     {
@@ -263,7 +263,7 @@ namespace Monitor.Models
                             }
                         }
                     }
-                    Sound.SoundLocation = @"C:\rsk\sound\en\пройдите_в_отдел.wav";
+                    Sound.SoundLocation = @"C:\rsk\sound\en\word\подойдите_к_окну.wav";
                     Sound.PlaySync();
                     Sound.SoundLocation = @"C:\rsk\sound\en\" + operSound + ".wav";
                     Sound.PlaySync();
